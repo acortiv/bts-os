@@ -1,5 +1,5 @@
 import { sleep, serve} from "bun";
-import { getData } from "./utils/getData";
+import { getData } from "./utils/get-data";
 
 // This is a basic HTTP Server without Async
 
