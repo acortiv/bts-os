@@ -1,4 +1,5 @@
 import { sleep, serve} from "bun";
+import { getData } from "./utils/getData";
 
 // This is a basic HTTP Server without Async
 
@@ -217,9 +218,54 @@ import { sleep, serve} from "bun";
 
 const server = serve({
     port: 8080,
-    fetch(req) {
-        return new Response("Hello World!");
+    async fetch(req) {
+        const url = new URL(req.url);
+        switch (url.pathname) {
+            case '/':
+                switch (req.method) {
+                    case "GET":
+                        return new Response("Landing Page!");
+                    default:
+                        return new Response("Method not allowed", { status: 405 });
+                }
+            case '/api':
+                switch (req.method) {
+                    case "GET":
+                        return new Response("This is the API");
+                    default:
+                        return new Response("Method not allowed", { status: 405});
+                }
+            case '/country':
+                switch(req.method) {
+                    case "POST":
+                        const countryReq = await req.json();
+                        const reqName = countryReq.name;
+                        try {
+                            const countryName = await getData(reqName);
+                            return new Response(countryName.name.common);
+                        } catch (e) {
+                            if (e instanceof(Error)) {
+                                return new Response(e.message);
+                            } else {
+                                return new Response("Unknown Error!");
+                            }
+                        }                       
+                    default:
+                        return new Response("Method is not allowed", { status: 405 });
+                }                    
+            case '/user':
+                switch (req.method) {
+                    case "GET":
+                        return new Response("Users");
+                    case "POST":
+                        return new Response("User Created");
+                    default:
+                        return new Response("Method not allowed", { status: 405});
+                } 
+            default:
+                return new Response("404 Not Found", { status: 404 });
+        }
     },
-})
+});
 
 console.log(`Listening on http://localhost:${server.port} ...`);

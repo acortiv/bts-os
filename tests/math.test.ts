@@ -94,12 +94,12 @@ import { expect, test, describe } from "bun:test";
 
 // Test Each 
 
-const cases = [
-    [1, 2, 3],
-    [3, 4, 7],
-  ];
+// const cases = [
+//     [1, 2, 3],
+//     [3, 4, 7],
+//   ];
   
-test.each(cases)("%p + %p should be %p", (a, b, expected) => {
-    // runs once for each test case provided
-    expect(a + b).toBe(expected); 
-});
+// test.each(cases)("%p + %p should be %p", (a, b, expected) => {
+//     // runs once for each test case provided
+//     expect(a + b).toBe(expected); 
+// });
