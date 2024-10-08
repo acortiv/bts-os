@@ -215,3 +215,11 @@ import { sleep, serve} from "bun";
 
 // console.log("Hello World!");
 
+const server = serve({
+    port: 8080,
+    fetch(req) {
+        return new Response("Hello World!");
+    },
+})
+
+console.log(`Listening on http://localhost:${server.port} ...`);
